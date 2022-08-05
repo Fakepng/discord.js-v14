@@ -1,3 +1,5 @@
+const { DEVELOPERGUILD } = process.env;
+
 function loadCommands(client) {
     const ascii = require("ascii-table");
     const fs = require("fs");
@@ -30,7 +32,7 @@ function loadCommands(client) {
 
     client.application.commands.set(commandsArray);
 
-    const developerGuild = client.guilds.cache.get(process.env.DEVELOPERGUILD)
+    const developerGuild = client.guilds.cache.get(DEVELOPERGUILD)
 
     developerGuild.commands.set(developerArray);
 
