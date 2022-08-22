@@ -6,23 +6,20 @@ const { Client, GatewayIntentBits, Partials, Collection } = require("discord.js"
 const { Guilds, GuildMembers, GuildMessages } = GatewayIntentBits;
 const { User, Message, GuildMember, ThreadMember } = Partials;
 
-const { loadEvents } = require("./Handlers/eventHandler");
-const { loadCommands } = require("./Handlers/commandHandler");
-
 const client = new Client({
-        intents: [Guilds, GuildMembers, GuildMessages],
-        partials: [User, Message, GuildMember, ThreadMember]
-    }
-);
+    intents: [Guilds, GuildMembers, GuildMessages],
+    partials: [User, Message, GuildMember, ThreadMember],
+});
 
-client.commands = new Collection();
+const { loadEvents } = require('./Handlers/eventHandler');
 
-client
-    .login(TOKEN)
-    .then(() => {
-        loadEvents(client);
-        loadCommands(client);
-    })
-    .catch((err) => {
-        console.error(err);
-    })
+client.events = new Collection();
+
+loadEvents(client);
+
+client.login(TOKEN)
+    // .then(() => {
+    //     console.log(`Client logged in as ${client.user.username}`);
+    //     client.user.setActivity(`with ${client.guilds.cache.size} guild(s)`);
+    // })
+    // .catch((err) => console.error(err));

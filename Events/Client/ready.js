@@ -1,12 +1,7 @@
 module.exports = {
-    name: "ready",
+    name: 'ready',
     once: true,
-    /**
-     * 
-     * @param {Client} client 
-     */
-    execute(client) {
-        console.log(`Client is now logged in as ${client.user.username}`)
-        client.user.setActivity(`in ${client.guilds.cache.size} servers`)
+    execute() {
+        console.log('The Client is ready!');
     }
 }

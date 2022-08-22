@@ -1,38 +1,32 @@
-function loadEvents(client) {
-    const ascii = require("ascii-table");
-    const fs = require("fs");
-    const table = new ascii().setHeading("Events", "Status");
+async function loadEvents(client) {
+    const { loadFiles } = require('../Functions/fileLoader');
+    const ascii = require('ascii-table');
+    const table = new ascii().setHeading('Events', 'Status');
 
-    const folders = fs.readdirSync("./Events");
-    for (const folder of folders) {
-        const files = fs
-            .readdirSync(`./Events/${folder}`)
-            .filter((file) => file.endsWith(".js"));
+    await client.events.clear();
 
-        for (const file of files) {
-            const event = require(`../Events/${folder}/${file}`);
+    const Files = await loadFiles('Events');
 
-            if (event.rest) {
-                if (event.once) {
-                    client.rest.once(event.name, (...args) => event.execute(...args, client));
-                } else {
-                    client.rest.on(event.name, (...args) => event.execute(...args, client));
-                }
+    Files.forEach((file) => {
+        const event = require(file);
+        
+        const execute = (...args) => event.execute(...args, client);
+        client.events.set(event.name, execute);
 
-            } else {
-                if (event.once) {
-                    client.once(event.name, (...args) => event.execute(...args, client));
-                } else {
-                    client.on(event.name, (...args) => event.execute(...args, client));
-                }
-            }
+        if (event.rest) {
+            if (event.once) client.rest.once(event.name, execute);
+            else client.rest.on(event.name, execute);
 
-            table.addRow(file, "🟩🟩🟩");
-            continue;
+        } else {
+            if (event.once) client.once(event.name, execute);
+            else client.on(event.name, execute);
+
         }
-    }
 
-    return console.log(table.toString(), "\nLoaded all events");
-}
+        table.addRow(event.name, '🟩🟩🟩')
+    })
+
+    return console.log(table.toString(), '\nLoaded Events')
+} 
 
 module.exports = { loadEvents };
