@@ -1,7 +1,11 @@
+const { loadCommands } = require('../../Handlers/commandHandler');
+
 module.exports = {
     name: 'ready',
     once: true,
-    execute() {
-        console.log('The Client is ready!');
+    execute(client) {
+        console.log(`Logged in as ${client.user.username}!`);
+
+        loadCommands(client);
     }
 }

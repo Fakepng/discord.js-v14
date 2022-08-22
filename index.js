@@ -14,12 +14,8 @@ const client = new Client({
 const { loadEvents } = require('./Handlers/eventHandler');
 
 client.events = new Collection();
+client.commands = new Collection();
 
 loadEvents(client);
 
 client.login(TOKEN)
-    // .then(() => {
-    //     console.log(`Client logged in as ${client.user.username}`);
-    //     client.user.setActivity(`with ${client.guilds.cache.size} guild(s)`);
-    // })
-    // .catch((err) => console.error(err));
