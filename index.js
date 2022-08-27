@@ -1,6 +1,6 @@
 require("dotenv").config();
 
-const { TOKEN } = process.env;
+const { TOKEN, DATABASE } = process.env;
 
 const { Client, GatewayIntentBits, Partials, Collection } = require("discord.js");
 const { Guilds, GuildMembers, GuildMessages } = GatewayIntentBits;
@@ -15,6 +15,13 @@ const { loadEvents } = require('./Handlers/eventHandler');
 
 client.events = new Collection();
 client.commands = new Collection();
+
+const { connect } = require('mongoose');
+connect(DATABASE, {
+
+}).then(() => {
+    console.log('Client connected to database');
+})
 
 loadEvents(client);
 
