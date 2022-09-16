@@ -18,6 +18,13 @@ module.exports = {
             return interaction.reply({ content: 'You are not my developer!', ephemeral: true });
         }
 
-        command.execute(interaction, client);
+        const subCommand = interaction.options.getSubcommand();
+        if (subCommand) {
+            const subCommandFile = client.subCommands.get(`${interaction.commandName}.${subCommand}`);
+            if (!subCommandFile) return interaction.reply({ content: 'There was an error while executing this command!', ephemeral: true });
+            subCommandFile.execute(interaction, client);
+        } else {
+            command.execute(interaction, client);
+        }
     }
 }
