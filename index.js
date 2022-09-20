@@ -26,4 +26,4 @@ connect(DATABASE, {
 
 loadEvents(client);
 
-client.login(TOKEN)
+client.login(TOKEN);
