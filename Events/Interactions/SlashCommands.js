@@ -18,7 +18,7 @@ module.exports = {
             return interaction.reply({ content: 'You are not my developer!', ephemeral: true });
         }
 
-        const subCommand = interaction.options.getSubcommand();
+        const subCommand = interaction.options.getSubcommand(false);
         if (subCommand) {
             const subCommandFile = client.subCommands.get(`${interaction.commandName}.${subCommand}`);
             if (!subCommandFile) return interaction.reply({ content: 'There was an error while executing this command!', ephemeral: true });
